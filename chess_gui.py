@@ -5,11 +5,19 @@
 # Note: The pygame tutorial by Eddie Sharick was used for the GUI engine. The GUI code was altered by Boo Sung Kim to
 # fit in with the rest of the project.
 #
+import logging
 import chess_engine
 import pygame as py
 
 import ai_engine
 from enums import Player
+
+LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(filename= "C:\\Users\\yisra\\desktop\\logs.log",
+                    level= logging.DEBUG,
+                    format= LOG_FORMAT,
+                    filemode= 'w')
+
 
 """Variables"""
 WIDTH = HEIGHT = 512  # width and height of the chess board
@@ -181,82 +189,18 @@ def main():
         if endgame == 0:
             game_over = True
             draw_text(screen, "Black wins.")
+            logging.info("Black wins.")
         elif endgame == 1:
             game_over = True
             draw_text(screen, "White wins.")
+            logging.info("White wins.")
         elif endgame == 2:
             game_over = True
             draw_text(screen, "Stalemate.")
+            logging.info("Stalemate.")
 
         clock.tick(MAX_FPS)
         py.display.flip()
-
-    # elif human_player is 'w':
-    #     ai = ai_engine.chess_ai()
-    #     game_state = chess_engine.game_state()
-    #     valid_moves = []
-    #     while running:
-    #         for e in py.event.get():
-    #             if e.type == py.QUIT:
-    #                 running = False
-    #             elif e.type == py.MOUSEBUTTONDOWN:
-    #                 if not game_over:
-    #                     location = py.mouse.get_pos()
-    #                     col = location[0] // SQ_SIZE
-    #                     row = location[1] // SQ_SIZE
-    #                     if square_selected == (row, col):
-    #                         square_selected = ()
-    #                         player_clicks = []
-    #                     else:
-    #                         square_selected = (row, col)
-    #                         player_clicks.append(square_selected)
-    #                     if len(player_clicks) == 2:
-    #                         if (player_clicks[1][0], player_clicks[1][1]) not in valid_moves:
-    #                             square_selected = ()
-    #                             player_clicks = []
-    #                             valid_moves = []
-    #                         else:
-    #                             game_state.move_piece((player_clicks[0][0], player_clicks[0][1]),
-    #                                                   (player_clicks[1][0], player_clicks[1][1]), False)
-    #                             square_selected = ()
-    #                             player_clicks = []
-    #                             valid_moves = []
-    #
-    #                             ai_move = ai.minimax(game_state, 3, -100000, 100000, True, Player.PLAYER_2)
-    #                             game_state.move_piece(ai_move[0], ai_move[1], True)
-    #                     else:
-    #                         valid_moves = game_state.get_valid_moves((row, col))
-    #                         if valid_moves is None:
-    #                             valid_moves = []
-    #             elif e.type == py.KEYDOWN:
-    #                 if e.key == py.K_r:
-    #                     game_over = False
-    #                     game_state = chess_engine.game_state()
-    #                     valid_moves = []
-    #                     square_selected = ()
-    #                     player_clicks = []
-    #                     valid_moves = []
-    #                 elif e.key == py.K_u:
-    #                     game_state.undo_move()
-    #                     print(len(game_state.move_log))
-    #         draw_game_state(screen, game_state, valid_moves, square_selected)
-    #
-    #         endgame = game_state.checkmate_stalemate_checker()
-    #         if endgame == 0:
-    #             game_over = True
-    #             draw_text(screen, "Black wins.")
-    #         elif endgame == 1:
-    #             game_over = True
-    #             draw_text(screen, "White wins.")
-    #         elif endgame == 2:
-    #             game_over = True
-    #             draw_text(screen, "Stalemate.")
-    #
-    #         clock.tick(MAX_FPS)
-    #         py.display.flip()
-    #
-    # elif human_player is 'b':
-    #     pass
 
 
 def draw_text(screen, text):
