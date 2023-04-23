@@ -11,6 +11,7 @@ import pygame as py
 
 import ai_engine
 from enums import Player
+from enums import Logs
 
 LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(filename= "C:\\Users\\yisra\\desktop\\logs.log",
@@ -26,6 +27,7 @@ SQ_SIZE = HEIGHT // DIMENSION  # the size of each of the squares in the board
 MAX_FPS = 15  # FPS for animations
 IMAGES = {}  # images for the chess pieces
 colors = [py.Color("white"), py.Color("gray")]
+
 
 # TODO: AI black has been worked on. Mirror progress for other two modes
 def load_images():
@@ -126,12 +128,29 @@ def main():
     player_clicks = []  # keeps track of player clicks (two tuples)
     valid_moves = []
     game_over = False
+    checks_amount = 0
+    knight_moves = 0
+    white_moves = 0
+    black_moves = 0
+    white_moves_bool = False
+    black_moves_bool = False
+    now_happend = [Logs.NOTHING]
 
     ai = ai_engine.chess_ai()
     game_state = chess_engine.game_state()
     if human_player == 'b':
         ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
-        game_state.move_piece(ai_move[0], ai_move[1], True)
+        res = game_state.move_piece(ai_move[0], ai_move[1], True)
+        checks_amount += res[0]
+        knight_moves += res[1]
+        if not white_moves_bool and res[2]:
+            white_moves_bool = True
+        elif not white_moves_bool and game_state.whose_turn() == Player.PLAYER_2:
+            white_moves += 1
+        if not black_moves_bool and res[3]:
+            black_moves_bool = True
+        elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
+            black_moves += 1
 
     while running:
         for e in py.event.get():
@@ -155,18 +174,51 @@ def main():
                             player_clicks = []
                             valid_moves = []
                         else:
-                            game_state.move_piece((player_clicks[0][0], player_clicks[0][1]),
+                            res = game_state.move_piece((player_clicks[0][0], player_clicks[0][1]),
                                                   (player_clicks[1][0], player_clicks[1][1]), False)
+                            if res[0]:
+                                checks_amount = checks_amount + 1
+                            knight_moves += res[1]
                             square_selected = ()
                             player_clicks = []
                             valid_moves = []
 
+                            u= game_state.whose_turn()
+                            if not white_moves_bool and res[2]:
+                                white_moves_bool = True
+                            elif not white_moves_bool and not game_state.whose_turn():
+                                white_moves += 1
+                            if not black_moves_bool and res[3]:
+                                black_moves_bool = True
+                            elif not black_moves_bool and game_state.whose_turn():
+                                black_moves += 1
+
                             if human_player == 'w':
                                 ai_move = ai.minimax_white(game_state, 3, -100000, 100000, True, Player.PLAYER_2)
-                                game_state.move_piece(ai_move[0], ai_move[1], True)
+                                res = game_state.move_piece(ai_move[0], ai_move[1], True)
+                                checks_amount += res[0]
+                                knight_moves += res[1]
+                                if not white_moves_bool and res[2]:
+                                    white_moves_bool = True
+                                elif not white_moves_bool and game_state.whose_turn() == Player.PLAYER_2:
+                                    white_moves += 1
+                                if not black_moves_bool and res[3]:
+                                    black_moves_bool = True
+                                elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
+                                    black_moves += 1
                             elif human_player == 'b':
                                 ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
-                                game_state.move_piece(ai_move[0], ai_move[1], True)
+                                res = game_state.move_piece(ai_move[0], ai_move[1], True)
+                                checks_amount += res[0]
+                                knight_moves += res[1]
+                                if not white_moves_bool and res[2]:
+                                    white_moves_bool = True
+                                elif not white_moves_bool and game_state.whose_turn() == Player.PLAYER_2:
+                                    white_moves += 1
+                                if not black_moves_bool and res[3]:
+                                    black_moves_bool = True
+                                elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
+                                    black_moves += 1
                     else:
                         valid_moves = game_state.get_valid_moves((row, col))
                         if valid_moves is None:
@@ -190,14 +242,29 @@ def main():
             game_over = True
             draw_text(screen, "Black wins.")
             logging.info("Black wins.")
+            logging.info(f"Checks amount: {checks_amount}")
+            logging.info(f"Knights moves: {knight_moves}")
+            #logging.info(f"The firs white piece was eaten at move number {white_moves}")
+            #logging.info(f"The firs black piece was eaten at move number {black_moves}")
+            break
         elif endgame == 1:
             game_over = True
             draw_text(screen, "White wins.")
             logging.info("White wins.")
+            logging.info(f"Checks amount: {checks_amount}")
+            logging.info(f"Knights moves: {knight_moves}")
+            #logging.info(f"The firs white piece was eaten at move number {white_moves}")
+            #logging.info(f"The firs black piece was eaten at move number {black_moves}")
+            break
         elif endgame == 2:
             game_over = True
             draw_text(screen, "Stalemate.")
             logging.info("Stalemate.")
+            logging.info(f"Checks amount: {checks_amount}")
+            logging.info(f"Knights moves: {knight_moves}")
+            #logging.info(f"The firs white piece was eaten at move number {white_moves}")
+            #logging.info(f"The firs black piece was eaten at move number {black_moves}")
+            break
 
         clock.tick(MAX_FPS)
         py.display.flip()
