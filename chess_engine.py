@@ -475,6 +475,11 @@ class game_state:
 
                 self.white_turn = not self.white_turn
 
+                if moved_to_piece != -9 and moved_to_piece.get_player() == Player.PLAYER_1:
+                    self.white_moves = True
+                elif moved_to_piece != -9 and moved_to_piece.get_player() == Player.PLAYER_2:
+                    self.black_moves = True
+
                 if self._is_check and moving_piece.get_name() == "n":
                     self._is_check = False
                     return [1,1,self.white_moves,self.black_moves]

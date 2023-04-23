@@ -182,11 +182,11 @@ def main():
                             if res[0]:
                                 checks_amount = checks_amount + 1
                             knight_moves += res[1]
+
                             square_selected = ()
                             player_clicks = []
                             valid_moves = []
 
-                            u= game_state.whose_turn()
                             if not white_moves_bool and res[2]:
                                 white_moves_bool = True
                             elif not white_moves_bool and not game_state.whose_turn():
@@ -247,8 +247,8 @@ def main():
             logging.info("Black wins.")
             logging.info(f"Checks amount: {checks_amount}")
             logging.info(f"Knights moves: {knight_moves}")
-            #logging.info(f"The firs white piece was eaten at move number {white_moves}")
-            #logging.info(f"The firs black piece was eaten at move number {black_moves}")
+            logging.info(f"The firs white piece was eaten at move number {white_moves}")
+            logging.info(f"The firs black piece was eaten at move number {black_moves}")
             break
         elif endgame == 1:
             game_over = True
@@ -256,8 +256,8 @@ def main():
             logging.info("White wins.")
             logging.info(f"Checks amount: {checks_amount}")
             logging.info(f"Knights moves: {knight_moves}")
-            #logging.info(f"The firs white piece was eaten at move number {white_moves}")
-            #logging.info(f"The firs black piece was eaten at move number {black_moves}")
+            logging.info(f"The firs white piece was eaten at move number {white_moves}")
+            logging.info(f"The firs black piece was eaten at move number {black_moves}")
             break
         elif endgame == 2:
             game_over = True
@@ -265,8 +265,8 @@ def main():
             logging.info("Stalemate.")
             logging.info(f"Checks amount: {checks_amount}")
             logging.info(f"Knights moves: {knight_moves}")
-            #logging.info(f"The firs white piece was eaten at move number {white_moves}")
-            #logging.info(f"The firs black piece was eaten at move number {black_moves}")
+            logging.info(f"The firs white piece was eaten at move number {white_moves}")
+            logging.info(f"The firs black piece was eaten at move number {black_moves}")
             break
 
         clock.tick(MAX_FPS)
