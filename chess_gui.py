@@ -139,6 +139,7 @@ def main():
     ai = ai_engine.chess_ai()
     game_state = chess_engine.game_state()
     if human_player == 'b':
+        logging.info("The computer started playing")
         ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
         res = game_state.move_piece(ai_move[0], ai_move[1], True)
         checks_amount += res[0]
@@ -151,6 +152,8 @@ def main():
             black_moves_bool = True
         elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
             black_moves += 1
+    else:
+        logging.info("The player started playing")
 
     while running:
         for e in py.event.get():
