@@ -128,6 +128,7 @@ def main():
     player_clicks = []  # keeps track of player clicks (two tuples)
     valid_moves = []
     game_over = False
+    move_num = 0
     checks_amount = 0
     knight_moves = 0
     white_moves = 0
@@ -141,6 +142,11 @@ def main():
     if human_player == 'b':
         logging.info("The computer started playing")
         ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
+        move_num += 1
+        for i in range(0, len(game_state.board)):
+            for j in range(0, len(game_state.board[i])):
+                if game_state.board[i][j] != -9:
+                    logging.info(f"move number {move_num}: {game_state.board[i][j]}")
         res = game_state.move_piece(ai_move[0], ai_move[1], True)
         checks_amount += res[0]
         knight_moves += res[1]
@@ -177,6 +183,11 @@ def main():
                             player_clicks = []
                             valid_moves = []
                         else:
+                            move_num += 1
+                            for i in range(0, len(game_state.board)):
+                                for j in range(0, len(game_state.board[i])):
+                                    if game_state.board[i][j] != -9:
+                                        logging.info(f"move number {move_num}: {game_state.board[i][j]}")
                             res = game_state.move_piece((player_clicks[0][0], player_clicks[0][1]),
                                                   (player_clicks[1][0], player_clicks[1][1]), False)
                             if res[0]:
@@ -198,6 +209,11 @@ def main():
 
                             if human_player == 'w':
                                 ai_move = ai.minimax_white(game_state, 3, -100000, 100000, True, Player.PLAYER_2)
+                                move_num += 1
+                                for i in range(0, len(game_state.board)):
+                                    for j in range(0, len(game_state.board[i])):
+                                        if game_state.board[i][j] != -9:
+                                            logging.info(f"move number {move_num}: {game_state.board[i][j]}")
                                 res = game_state.move_piece(ai_move[0], ai_move[1], True)
                                 checks_amount += res[0]
                                 knight_moves += res[1]
@@ -211,6 +227,11 @@ def main():
                                     black_moves += 1
                             elif human_player == 'b':
                                 ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
+                                move_num += 1
+                                for i in range(0, len(game_state.board)):
+                                    for j in range(0, len(game_state.board[i])):
+                                        if game_state.board[i][j] != -9:
+                                            logging.info(f"move number {move_num}: {game_state.board[i][j]}")
                                 res = game_state.move_piece(ai_move[0], ai_move[1], True)
                                 checks_amount += res[0]
                                 knight_moves += res[1]
