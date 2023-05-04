@@ -11,11 +11,13 @@ def empty_board(row: int, col: int) -> Player:
     """
     return Player.EMPTY
 
+
 def piece_in_all_possibilities(row: int, col: int) -> Player:
     """
     Returns board with a pawn at Player.PLAYER_2
     """
     return Pawn("my_pawn", row, col, Player.PLAYER_2)
+
 
 def piece_in_most_possibilities(row: int, col: int) -> Player:
     """
@@ -23,11 +25,14 @@ def piece_in_most_possibilities(row: int, col: int) -> Player:
     """
     return Player.EMPTY if (row, col) == (1, 2) else Pawn("my_pawn", row, col, Player.PLAYER_2)
 
+
 def piece_of_player2(row: int, col: int) -> Player:
     """
     Return a Pawn belonging to Player.PLAYER_1 at (1,2) and a Pawn belonging to Player.PLAYER_2 at all other positions
     """
-    return Pawn("my_pawn", row, col, Player.PLAYER_1) if (row, col) == (1, 2) else Pawn("my_pawn", row, col, Player.PLAYER_2)
+    return Pawn("my_pawn", row, col, Player.PLAYER_1) if (row, col) == (1, 2) else Pawn("my_pawn", row, col,
+                                                                                        Player.PLAYER_2)
+
 
 def there_is_not_a_piece(row: int, col: int) -> bool:
     """
@@ -35,11 +40,13 @@ def there_is_not_a_piece(row: int, col: int) -> bool:
     """
     return False
 
+
 def there_is_a_piece(row: int, col: int) -> bool:
     """
     Return True to indicate that there is a piece at the given position
     """
     return True
+
 
 def test_get_valid_peaceful_moves():
     """
@@ -132,3 +139,4 @@ def test_get_valid_piece_takes():
 
     # Assert
     assert result == [(1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
+
