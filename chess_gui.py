@@ -143,18 +143,18 @@ def main():
         logging.info("The computer started playing")
         ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
         move_num += 1
-        for i in range(0, len(game_state.board)):
-            for j in range(0, len(game_state.board[i])):
-                if game_state.board[i][j] != -9:
-                    logging.info(f"move number {move_num}: {game_state.board[i][j]}")
-        res = game_state.move_piece(ai_move[0], ai_move[1], True)
-        checks_amount += res[0]
-        knight_moves += res[1]
-        if not white_moves_bool and res[2]:
+        for row in range(0, len(game_state.board)):
+            for column in range(0, len(game_state.board[row])):
+                if game_state.board[row][column] != -9:
+                    logging.info(f"move number {move_num}: {game_state.board[row][column]}")
+        result = game_state.move_piece(ai_move[0], ai_move[1], True)
+        checks_amount += result[0]
+        knight_moves += result[1]
+        if not white_moves_bool and result[2]:
             white_moves_bool = True
         elif not white_moves_bool and game_state.whose_turn() == Player.PLAYER_2:
             white_moves += 1
-        if not black_moves_bool and res[3]:
+        if not black_moves_bool and result[3]:
             black_moves_bool = True
         elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
             black_moves += 1
@@ -184,25 +184,25 @@ def main():
                             valid_moves = []
                         else:
                             move_num += 1
-                            for i in range(0, len(game_state.board)):
-                                for j in range(0, len(game_state.board[i])):
-                                    if game_state.board[i][j] != -9:
-                                        logging.info(f"move number {move_num}: {game_state.board[i][j]}")
-                            res = game_state.move_piece((player_clicks[0][0], player_clicks[0][1]),
+                            for row in range(0, len(game_state.board)):
+                                for column in range(0, len(game_state.board[row])):
+                                    if game_state.board[row][column] != -9:
+                                        logging.info(f"move number {move_num}: {game_state.board[row][column]}")
+                            result = game_state.move_piece((player_clicks[0][0], player_clicks[0][1]),
                                                   (player_clicks[1][0], player_clicks[1][1]), False)
-                            if res[0]:
+                            if result[0]:
                                 checks_amount = checks_amount + 1
-                            knight_moves += res[1]
+                            knight_moves += result[1]
 
                             square_selected = ()
                             player_clicks = []
                             valid_moves = []
 
-                            if not white_moves_bool and res[2]:
+                            if not white_moves_bool and result[2]:
                                 white_moves_bool = True
                             elif not white_moves_bool and not game_state.whose_turn():
                                 white_moves += 1
-                            if not black_moves_bool and res[3]:
+                            if not black_moves_bool and result[3]:
                                 black_moves_bool = True
                             elif not black_moves_bool and game_state.whose_turn():
                                 black_moves += 1
@@ -210,36 +210,36 @@ def main():
                             if human_player == 'w':
                                 ai_move = ai.minimax_white(game_state, 3, -100000, 100000, True, Player.PLAYER_2)
                                 move_num += 1
-                                for i in range(0, len(game_state.board)):
-                                    for j in range(0, len(game_state.board[i])):
-                                        if game_state.board[i][j] != -9:
-                                            logging.info(f"move number {move_num}: {game_state.board[i][j]}")
-                                res = game_state.move_piece(ai_move[0], ai_move[1], True)
-                                checks_amount += res[0]
-                                knight_moves += res[1]
-                                if not white_moves_bool and res[2]:
+                                for row in range(0, len(game_state.board)):
+                                    for column in range(0, len(game_state.board[row])):
+                                        if game_state.board[row][column] != -9:
+                                            logging.info(f"move number {move_num}: {game_state.board[row][column]}")
+                                result = game_state.move_piece(ai_move[0], ai_move[1], True)
+                                checks_amount += result[0]
+                                knight_moves += result[1]
+                                if not white_moves_bool and result[2]:
                                     white_moves_bool = True
                                 elif not white_moves_bool and game_state.whose_turn() == Player.PLAYER_2:
                                     white_moves += 1
-                                if not black_moves_bool and res[3]:
+                                if not black_moves_bool and result[3]:
                                     black_moves_bool = True
                                 elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
                                     black_moves += 1
                             elif human_player == 'b':
                                 ai_move = ai.minimax_black(game_state, 3, -100000, 100000, True, Player.PLAYER_1)
                                 move_num += 1
-                                for i in range(0, len(game_state.board)):
-                                    for j in range(0, len(game_state.board[i])):
-                                        if game_state.board[i][j] != -9:
-                                            logging.info(f"move number {move_num}: {game_state.board[i][j]}")
-                                res = game_state.move_piece(ai_move[0], ai_move[1], True)
-                                checks_amount += res[0]
-                                knight_moves += res[1]
-                                if not white_moves_bool and res[2]:
+                                for row in range(0, len(game_state.board)):
+                                    for column in range(0, len(game_state.board[row])):
+                                        if game_state.board[row][column] != -9:
+                                            logging.info(f"move number {move_num}: {game_state.board[row][column]}")
+                                result = game_state.move_piece(ai_move[0], ai_move[1], True)
+                                checks_amount += result[0]
+                                knight_moves += result[1]
+                                if not white_moves_bool and result[2]:
                                     white_moves_bool = True
                                 elif not white_moves_bool and game_state.whose_turn() == Player.PLAYER_2:
                                     white_moves += 1
-                                if not black_moves_bool and res[3]:
+                                if not black_moves_bool and result[3]:
                                     black_moves_bool = True
                                 elif not black_moves_bool and game_state.whose_turn() == Player.PLAYER_1:
                                     black_moves += 1
