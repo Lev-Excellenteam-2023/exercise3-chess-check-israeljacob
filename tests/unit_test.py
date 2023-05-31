@@ -48,95 +48,126 @@ def there_is_a_piece(row: int, col: int) -> bool:
     return True
 
 
-def test_get_valid_peaceful_moves():
+def test_get_valid_peaceful_moves_empty_board():
     """
-    Tests Knight's get_valid_peaceful_moves method
+    Test case for the get_valid_peaceful_moves method of the Knight class
+    when the knight is surrounded by empty squares.
+
+    Expected Result: List of valid peaceful moves for the Knight.
+    Expected Output: [(1, 2), (1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
     """
 
     mock_game_state = Mock()
-
-    # Mock Knight instance
     mock_knight = Mock()
     mock_knight.get_row_number.return_value = 3
     mock_knight.get_col_number.return_value = 3
-
-    # TC01: Knight is alone on board
-
-    # Setup
     mock_game_state.get_piece.side_effect = empty_board
 
-    # Test
     result = Knight.get_valid_peaceful_moves(mock_knight, mock_game_state)
 
-    # Assert
     assert result == [(1, 2), (1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
 
-    # TC02: Knight is surrounded by opponent pawns
 
-    # Setup
+def test_get_valid_peaceful_moves_all_pieces():
+    """
+    Test case for the get_valid_peaceful_moves method of the Knight class
+    when the knight is surrounded by opponent pieces.
+
+    Expected Result: List of valid peaceful moves for the Knight.
+    Expected Output: []
+    """
+
+    mock_game_state = Mock()
+    mock_knight = Mock()
+    mock_knight.get_row_number.return_value = 3
+    mock_knight.get_col_number.return_value = 3
     mock_game_state.get_piece.side_effect = piece_in_all_possibilities
 
-    # Test
     result = Knight.get_valid_peaceful_moves(mock_knight, mock_game_state)
 
-    # Assert
     assert result == []
 
-    # TC03: Knight is surrounded by opponent pawns except for one friendly pawn
 
-    # Setup
+def test_get_valid_peaceful_moves_mixed_pieces():
+    """
+    Test case for the get_valid_peaceful_moves method of the Knight class
+    when the knight is surrounded by a mix of opponent and friendly pieces.
+
+    Expected Result: List of valid peaceful moves for the Knight.
+    Expected Output: [(1, 2)]
+    """
+
+    mock_game_state = Mock()
+    mock_knight = Mock()
+    mock_knight.get_row_number.return_value = 3
+    mock_knight.get_col_number.return_value = 3
     mock_game_state.get_piece.side_effect = piece_in_most_possibilities
 
-    # Test
     result = Knight.get_valid_peaceful_moves(mock_knight, mock_game_state)
 
-    # Assert
     assert result == [(1, 2)]
 
 
-def test_get_valid_piece_takes():
-    # Create a mock game state object
-    mock_game_state = Mock()
+def test_get_valid_piece_takes_alone():
+    """
+    Test case for the get_valid_piece_takes method of the Knight class
+    when the knight is alone on the board.
 
-    # Create a mock Knight object with specified attributes
+    Expected Result: List of valid piece take moves for the Knight.
+    Expected Output: []
+    """
+
+    mock_game_state = Mock()
     mock_knight = Mock()
     mock_knight.get_row_number.return_value = 3
     mock_knight.get_col_number.return_value = 3
     mock_knight.get_player.return_value = Player.PLAYER_1
-
-    # TC01: Knight is alone on board
-
-    # Setup
     mock_game_state.get_piece.side_effect = empty_board
     mock_game_state.is_valid_piece.side_effect = there_is_not_a_piece
 
-    # Test
     result = Knight.get_valid_piece_takes(mock_knight, mock_game_state)
 
-    # Assert
     assert result == []
 
-    # TC02: Knight is surrounded by opponent pawns
 
-    # Setup
+def test_get_valid_piece_takes_all_pieces():
+    """
+    Test case for the get_valid_piece_takes method of the Knight class
+    when the knight is surrounded by opponent pieces.
+
+    Expected Result: List of valid piece take moves for the Knight.
+    Expected Output: [(1, 2), (1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
+    """
+
+    mock_game_state = Mock()
+    mock_knight = Mock()
+    mock_knight.get_row_number.return_value = 3
+    mock_knight.get_col_number.return_value = 3
+    mock_knight.get_player.return_value = Player.PLAYER_1
     mock_game_state.get_piece.side_effect = piece_in_all_possibilities
     mock_game_state.is_valid_piece.side_effect = there_is_a_piece
 
-    # Test
     result = Knight.get_valid_piece_takes(mock_knight, mock_game_state)
 
-    # Assert
     assert result == [(1, 2), (1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
 
-    # TC03: Knight is surrounded by opponent pawns except for one friendly pawn
+def test_get_valid_piece_takes_mixed_pieces():
+    """
+    Test case for the get_valid_piece_takes method of the Knight class
+    when the knight is surrounded by opponent pieces except for one friendly piece.
 
-    # Setup
+    Expected Result: List of valid piece take moves for the Knight.
+    Expected Output: [(1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
+    """
+
+    mock_game_state = Mock()
+    mock_knight = Mock()
+    mock_knight.get_row_number.return_value = 3
+    mock_knight.get_col_number.return_value = 3
+    mock_knight.get_player.return_value = Player.PLAYER_1
     mock_game_state.get_piece.side_effect = piece_of_player2
     mock_game_state.is_valid_piece.side_effect = there_is_a_piece
 
-    # Test
     result = Knight.get_valid_piece_takes(mock_knight, mock_game_state)
 
-    # Assert
     assert result == [(1, 4), (2, 1), (2, 5), (4, 1), (4, 5), (5, 4), (5, 2)]
-
